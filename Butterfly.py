@@ -24,7 +24,7 @@ torch.backends.cudnn.benchmark = False
 # ----------------------
 # Simulation Constants
 # ----------------------
-NUM_NODES      = 10
+NUM_NODES      = 16
 EPISODES       = 300          # slightly lower for faster runs
 STEPS          = 250          # slots per episode
 SLOT_TIME_S    = 1e-6         # 1 µs/slot, used for throughput units
