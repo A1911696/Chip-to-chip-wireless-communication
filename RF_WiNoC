@@ -1,0 +1,109 @@
+#Importing necessary python packages
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+# Define simulation parameters
+#Number of nodes in WiNoC
+CORE_COUNT = 64
+
+#size of packet transmitted
+PACKET_SIZE = 1024
+#Number of packets transmitted
+NUM_PACKETS_TRANS = 1000
+#Simulation time in seconds
+SIMULATION_TIME = 1.0
+class WirelessMedium:
+    def init__(self , bandwidth =5e8, latency =5e-9, error_rate =0.01):
+        self .bandwidth = bw_value
+        self .latency = latency_value
+        self .error_rate = error_value
+        def transmit(self , packet_size_bits ):
+            success = np.random.rand() > self .error_rate
+            if success:
+                 # packet transmitted successfully
+                return packet_size / self .bandwidth + self .latency
+            else:
+                # packet transmission failed
+                return None
+class RF_WiNoCSimulator:
+# Simulating random,butterfly and bursty traffic conditions
+    def __init__(self , num_nodes =64, pattern ='random'):
+        self .num_nodes = core_count
+        self .pattern = traffic_pattern
+        self .channel = WirelessMedium()
+        self .latencies = []
+        self .packets_successful = 0
+        self .packets_failed = 0
+        self .total_bits_transmitted = 0
+    def generate_traffic(self , index ):
+        if self .pattern == 'random':
+            source = random.randint(0, core_count - 1)
+            destination = random.randint(0, core_count - 1)
+            while dst == src:
+               dst = random.randint(0, core_count - 1)
+        elif self .pattern == 'butterfly':
+            source = index % self .num_nodes
+            bits = int(np.log2(self .num_nodes))
+            destination = int('{:0{width}b}'.format(src, width =bits)[::-1], 2)
+        elif self .pattern == 'bursty':
+            source = random.randint(0, core_count - 1)
+                # node remains idle mostly in burst mode
+            if random.random() < 0.3:
+                destination = random.randint(0, core_count - 1)
+                while dst == src:
+                    destination = random.randint(0, core_count - 1)
+            else:
+                # No transmission when channel is idle
+                return None, None
+        return source, destination
+    def run(self , num_packets_trans =1000, packet_size =1024):
+     for i in range(num_packets ):
+        source, destination = self .generate_traffic(i)
+        if source is None or destination is None:
+            continue
+        latency = self .channel.transmit(packet_size )
+        self .total_bits_sent += packet_size
+        if latency is not None:
+            self .latencies.append(latency_value)
+            self .successful_packets += 1
+        else:
+            self .failed_packets += 1
+# Determining performance Metrics
+        avg_latency = np.mean(self .latencies) if self .latencies else None
+        throughput = (self .successful_packets * packet_size ) / SIM_TIME
+        delivery_ratio = self .successful_packets / num_packets
+        loss_rate = self .failed_packets / num_packets
+
+        return {
+        'traffic_pattern': self .pattern,
+        'avg_latency': avg_latency,
+        'throughput': throughput,
+        'delivery_ratio': delivery_ratio,
+        'loss_rate': loss_rate
+            }
+# perform simulation for all traffic patterns
+patterns = ['random', 'butterfly', 'bursty']
+results = []
+for pattern in patterns:
+    sim = WiNoCSimulator(num_nodes =NUM_NODES, pattern =pattern)
+    result = sim.run(num_packets =NUM_PACKETS, packet_size =PACKET_SIZE_BITS)
+    results.append(result)
+# Functions to plot graphs
+# Generate subplot for all metrics
+def plot_all_metrics(results , patterns ):
+    metrics = ['avg_latency', 'throughput', 'delivery_ratio', 'loss_rate']
+    ylabels = ['Average Latency (s)', 'Throughput (bits/s)','Packet Delivery Ratio', 'Loss Rate']
+    titles = ['Average Latency', 'Throughput','Packet Delivery Ratio', 'Packet Loss Rate']
+    fig, axs = plt.subplots(2, 2, figsize =(14, 8))
+    axs = axs.flatten()
+    for i, metric in enumerate(metrics):
+        values = [r[metric] for r in results ]
+        axs[i].bar('traffic_pattern', values, color ='steelblue')
+        axs[i].set_title(titles[i])
+        axs[i].set_ylabel(ylabels[i])
+        axs[i].set_xlabel('Traffic Pattern')
+        axs[i].grid(True, linestyle ='--', alpha =0.6)
+        plt.tight_layout()
+        plt.show()
+# Call the plotting function
+plot_all_metrics(results, traffic_patterns)
